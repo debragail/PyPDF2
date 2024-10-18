@@ -3,8 +3,8 @@ import datetime
 import decimal
 from .generic import PdfObject
 from xml.dom import getDOMImplementation
-from xml.dom.minidom import parseString
 from .utils import u_
+import defusedxml.minidom
 
 RDF_NAMESPACE = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 DC_NAMESPACE = "http://purl.org/dc/elements/1.1/"
@@ -59,7 +59,7 @@ class XmpInformation(PdfObject):
 
     def __init__(self, stream):
         self.stream = stream
-        docRoot = parseString(self.stream.getData())
+        docRoot = defusedxml.minidom.parseString(self.stream.getData())
         self.rdfRoot = docRoot.getElementsByTagNameNS(RDF_NAMESPACE, "RDF")[0]
         self.cache = {}
 
